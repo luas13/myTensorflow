@@ -1,5 +1,4 @@
 # This model gives us an accuracy of 99.18 % on MNIST dataset
-
 # coding=utf-8
 
 import tensorflow as tf
@@ -8,6 +7,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 # tf.truncated_normal
 # Random values with a normal distribution but eliminating those values whose
 # magnitude is more than 2 times the standard deviation
+
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev= 0.1)
     return tf.Variable(initial)
@@ -45,23 +45,25 @@ differentiable function that may or may not have parameters.
 def cnn():
     mnist = input_data.read_data_sets('MNIST_data/', one_hot=True)
 
-    """ values we will input during computation 
+    """
+    values we will input during computation 
 
-	The tensor x will be used to store the MNIST images as a vector of 
-	784 floating point values (using None we indicate that the dimension
-	can be any size; in our case it will be equal to the number of elements
-	included in the learning process).
+    The tensor x will be used to store the MNIST images as a vector of 
+    784 floating point values (using None we indicate that the dimension
+    can be any size; in our case it will be equal to the number of elements
+    included in the learning process).
+    """
 
-	"""
     x = tf.placeholder("float", shape=[None, 784])
     y = tf.placeholder("float", shape=[None, 10])
 
     """
-	Here we changed the input shape to a 4D tensor, the second and third dimension
-	correspond to the width and the height of the image while the last dimension
-	corresponding number of colour channels, 1 in this case.
-	"""
-	x_image = tf.reshape(x, [-1, 28, 28, 1])
+    Here we changed the input shape to a 4D tensor, the second and third dimension
+    correspond to the width and the height of the image while the last dimension
+    corresponding number of colour channels, 1 in this case.
+    """
+
+    x_image = tf.reshape(x, [-1, 28, 28, 1])
 
     """
     In particular, unlike a regular Neural Network, the layers of a
@@ -75,23 +77,23 @@ def cnn():
     features to extract in this layer.
     Thus we are using 32 no of 5x5 filter with depth 1
 	
-	Each neuron of our hidden layer is connected with a small 5×5 region
-	of the input layer.
+    Each neuron of our hidden layer is connected with a small 5×5 region
+    of the input layer.
 	
-	Shared matrix W and the bias b are usually called a kernel or filter 
-	in the context of CNN’s. These filters are similar to those used image 
-	processing programs for retouching images, which in our case are used 
-	to find discriminating features.
+    Shared matrix W and the bias b are usually called a kernel or filter 
+    in the context of CNN’s. These filters are similar to those used image 
+    processing programs for retouching images, which in our case are used 
+    to find discriminating features.
 	
-	Neurons in each depth slice use same weights and bias.
+    Neurons in each depth slice use same weights and bias.
 	
-	A weight matrix and a bias define a kernel. A kernel only detects one 
-	certain relevant feature in the image so it is, therefore, recommended 
-	to use several kernels, one for each characteristic we would like to detect.
+    A weight matrix and a bias define a kernel. A kernel only detects one 
+    certain relevant feature in the image so it is, therefore, recommended 
+    to use several kernels, one for each characteristic we would like to detect.
 	
-	The first hidden layer is composed by several kernels. In our example, 
-	we use 32 kernels, each one defined by a 5×5 weight matrix W and a bias b
-	that is also shared between the neurons of the hidden layer.
+    The first hidden layer is composed by several kernels. In our example, 
+    we use 32 kernels, each one defined by a 5×5 weight matrix W and a bias b
+    that is also shared between the neurons of the hidden layer.
     """
 
     W_conv1 = weight_variable([5, 5, 1, 32])
@@ -113,8 +115,8 @@ def cnn():
     features to extract in this layer
     Thus we are using 64 no of 5x5 filter with depth 32
 	
-	In this case we have to pass 32 as the number of channels that we 
-	need as that is the output size of the previous layer
+    In this case we have to pass 32 as the number of channels that we 
+    need as that is the output size of the previous layer
     """
 
     W_conv2 = weight_variable([5, 5, 32, 64])
@@ -136,12 +138,12 @@ def cnn():
     Fully connected layer
     [input_size, output_size]
 	
-	We will use a layer of 1024 neurons, allowing us to to process
-	the entire image.
+    We will use a layer of 1024 neurons, allowing us to to process
+    the entire image.
 	
-	First dimension of the tensor represents the 64 filters of size 7×7
-	from the second convolution layer, while the second parameter is the
-	amount of neurons in the layer and is free to be chosen by us (in our case 1024).
+    First dimension of the tensor represents the 64 filters of size 7×7
+    from the second convolution layer, while the second parameter is the
+    amount of neurons in the layer and is free to be chosen by us (in our case 1024).
     """
 
     W_fc1 = weight_variable([7*7*64, 1024])
@@ -151,16 +153,18 @@ def cnn():
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
-    """Add dropout
+    """
+    Add dropout
 	
-	Dropout reduces the risk of the model of overfitting the data. This can 
-	happen when the hidden layers have large amount of neurons and thus can 
-	lead to very expressive models; in this case it can happen that random 
-	noise (or error) is modelled. This is known as overfitting, which is more 
-	likely if the model has a lot of parameters compared to the dimension of 
-	the input. The best is to avoid this situation, as overfitted models have 
-	poor predictive performance.
-	"""
+    Dropout reduces the risk of the model of overfitting the data. This can 
+    happen when the hidden layers have large amount of neurons and thus can 
+    lead to very expressive models; in this case it can happen that random 
+    noise (or error) is modelled. This is known as overfitting, which is more 
+    likely if the model has a lot of parameters compared to the dimension of 
+    the input. The best is to avoid this situation, as overfitted models have 
+    poor predictive performance.
+    """
+
     # using a placeholder for keep_prob will allow us to turn off
     # dropout during the testing
     keep_prob = tf.placeholder("float")
@@ -203,13 +207,13 @@ def cnn():
     1 is axis here.
     tf.argmax Returns the index with the largest value across axes of a tensor.
 	
-	tf.equal(tf.argmax(y, 1), tf.argmax(y_hat, 1))
-	This instruction returns a list of Booleans. To determine which fractions
-	of predictions are correct, we can cast the values to numeric variables 
-	(floating point) 
+    tf.equal(tf.argmax(y, 1), tf.argmax(y_hat, 1))
+    This instruction returns a list of Booleans. To determine which fractions
+    of predictions are correct, we can cast the values to numeric variables 
+    (floating point) 
 	
-	For example, [True, False, True, True] will turn into [1,0,1,1] and 
-	the average will be 0.75 representing the percentage of accuracy.
+    For example, [True, False, True, True] will turn into [1,0,1,1] and 
+    the average will be 0.75 representing the percentage of accuracy.
     """
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_hat, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
@@ -224,9 +228,8 @@ def cnn():
             print "step %d, training accuracy %g" % (n, train_accuracy)
         sess.run(train_step, feed_dict={x: batch[0], y: batch[1], keep_prob: 0.5})
 
-    """
-    Evaluation Accuracy
-    """
+    #Evaluation Accuracy
+
     print "test accuracy %g" % accuracy.eval(feed_dict={x: mnist.test.images, y:mnist.test.labels, 
         keep_prob: 1.0})
 
