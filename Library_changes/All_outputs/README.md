@@ -36,4 +36,4 @@ Let's say we have 3 layers, 2 batches and 10 time-steps then we need all the hid
 
 ## Solution
 
-I wrote a custom MultiRNNCell as defined in Tensorflow library [core_rnn_cell_impl.py] (https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/contrib/rnn/python/ops/core_rnn_cell_impl.py) to serve this purpose. Please find the same in the code attached
+I wrote a custom MultiRNNCell as defined in [Tensorflow library] (https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/contrib/rnn/python/ops/core_rnn_cell_impl.py) to serve this purpose. Please find the same in the code attached
