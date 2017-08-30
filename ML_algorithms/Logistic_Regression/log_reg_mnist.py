@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+'''
+    Accuracy: 0.9133
+    eta = learning rate = 0.13
+    no_iterations = 400
+    batch_size = 500
+'''
+
 import tensorflow as tf
 import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
