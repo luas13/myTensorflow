@@ -144,6 +144,19 @@ def cnn():
     First dimension of the tensor represents the 64 filters of size 7×7
     from the second convolution layer, while the second parameter is the
     amount of neurons in the layer and is free to be chosen by us (in our case 1024).
+    
+    More explanation about 7x7x64:
+    Working from the start:
+    The input, _X is of size [28x28x1] (ignoring the batch dimension). 
+    A 28x28 greyscale image. The first convolutional layer uses PADDING=same, 
+    so it outputs a 28x28 layer, which is then passed to a max_pool with k=2, 
+    which reduces each dimension by a factor of two, resulting in a 14x14 spatial 
+    layout. conv1 has 32 outputs -- so the full per-example tensor is now [14x14x32].
+
+    This is repeated in conv2, which has 64 outputs, resulting in a [7x7x64].
+    tl;dr: The image starts as 28x28, and each maxpool reduces it by a factor 
+    of two in each dimension. 28/2/2 = 7
+    
     """
 
     W_fc1 = weight_variable([7*7*64, 1024])
